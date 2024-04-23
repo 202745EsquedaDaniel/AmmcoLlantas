@@ -1,9 +1,11 @@
+import { Layout } from "../../components/layout"
 
-function Home({children}){
+function Home(){
     return(
-
-                    <h1>Soy el home</h1>
-
+        <Layout>
+            <h1>Soy el home</h1>
+        </Layout>
+                
 
     )
 }

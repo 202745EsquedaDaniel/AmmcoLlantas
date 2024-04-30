@@ -3,6 +3,7 @@ import './App.css'
 import { Home } from '../Home'
 import { NavBar } from '../../components/navbar'
 import { Sidebar } from '../../components/sidebar'
+import { InventorySystemProvider } from '../../context'
 
 const AppRoutes = () => {
   let routes = useRoutes([
@@ -13,11 +14,14 @@ const AppRoutes = () => {
 
 function App() {
   return(
-    <BrowserRouter>
-    <AppRoutes></AppRoutes>
-    <NavBar></NavBar>
-    <Sidebar></Sidebar>
-    </BrowserRouter>
+    <InventorySystemProvider>
+      <BrowserRouter>
+      <AppRoutes></AppRoutes>
+      <NavBar></NavBar>
+      <Sidebar></Sidebar>
+      </BrowserRouter>
+    </InventorySystemProvider>
+
   )
 
   

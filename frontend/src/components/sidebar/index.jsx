@@ -9,52 +9,42 @@ const Sidebar = () => {
             <ul className='py-5 px-8 text-sm font-light'>
                 <li className='font-semibold text-lg mb-5'>
                     <NavLink to="/" activeClassName={activeStyle} exact>
-                        Shopi
+                        Ammco
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/" activeClassName={activeStyle} exact>
-                        All
+                    <NavLink to="/products"   className={({isActive}) =>
+                    isActive ? activeStyle : undefined 
+                }>
+                        Productos
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/clothes" activeClassName={activeStyle}>
-                        Clothes
+                    <NavLink to="/providers"   className={({isActive}) =>
+                    isActive ? activeStyle : undefined 
+                }>
+                        Proveedores
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/electronics" activeClassName={activeStyle}>
-                        Electronics
+                    <NavLink to="/orders"   className={({isActive}) =>
+                    isActive ? activeStyle : undefined 
+                }>
+                        Ordenes
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/furnitures" activeClassName={activeStyle}>
-                        Furnitures
+                    <NavLink to="/toys"   className={({isActive}) =>
+                    isActive ? activeStyle : undefined 
+                }>
+                        Usuarios
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/toys" activeClassName={activeStyle}>
-                        Toys
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/others" activeClassName={activeStyle}>
-                        Others
-                    </NavLink>
-                </li>
-                <li className='mt-auto'>
-                    <NavLink to="/My-Orders" activeClassName={activeStyle}>
-                        My Orders
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/My-Account" activeClassName={activeStyle}>
-                        My Account
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/SignIn" activeClassName={activeStyle}>
-                        Sign In
+                    <NavLink to="/others"   className={({isActive}) =>
+                    isActive ? activeStyle : undefined 
+                }>
+                        Configuracion
                     </NavLink>
                 </li>
             </ul>

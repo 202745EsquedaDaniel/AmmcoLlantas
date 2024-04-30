@@ -4,10 +4,22 @@ import { Home } from '../Home'
 import { NavBar } from '../../components/navbar'
 import { Sidebar } from '../../components/sidebar'
 import { InventorySystemProvider } from '../../context'
+import { Manage_User } from '../manage user'
+import { Orders } from '../order'
+import { Products } from '../product'
+import { Providers } from '../provider'
+
+
 
 const AppRoutes = () => {
   let routes = useRoutes([
-    {path:"/", element:<Home/>}
+    {path:"/", element:<Home/>},
+    {path:"/products", element:<Products/>},
+    {path:"/providers", element:<Home/>},
+    {path:"/orders", element:<Orders/>},
+    {path:"/manage_user", element:<Manage_User/>},
+    {path:"/providers", element:<Providers/>}
+
   ])
   return routes
 }

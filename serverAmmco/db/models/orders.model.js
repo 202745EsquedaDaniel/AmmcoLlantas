@@ -1,6 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const { CUSTOMER_TABLE } = require('./cliente.model');
+const { CUSTOMER_TABLE } = require('./customers.model');
 
 const ORDER_TABLE = 'Orders';
 
@@ -11,8 +11,8 @@ const OrderSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
-  customerId: {
-    field: 'customer_id',
+  customer_ID: {
+    field: 'customer_ID',
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
@@ -45,13 +45,13 @@ const OrderSchema = {
 
 class Order extends Model {
   static associate(models) {
-    this.hasMany(models.ProjectCustomer, {
-      as: 'projectCustomers',
-      foreignKey: 'project_id',
+    this.hasMany(models.OrderDetail, {
+      as: 'orderDetail',
+      foreignKey: 'orderDetail_ID',
     });
     this.belongsTo(models.Customer, {
       as: 'Customer',
-      foreignKey: 'customer_id',
+      foreignKey: 'customer_ID',
     });
   }
 

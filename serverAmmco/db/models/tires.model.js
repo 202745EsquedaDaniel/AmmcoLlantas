@@ -41,7 +41,11 @@ class Tire extends Model {
   static associate(models) {
     this.belongsTo(models.Provider, {
       as: 'Provider',
-      foreignKey: 'provider_id',
+      foreignKey: 'provider_ID',
+    });
+    this.belongsTo(models.OrderDetail, {
+      as: 'OrderDetail',
+      foreignKey: 'orderDetal_ID',
     });
   }
 

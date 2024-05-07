@@ -57,13 +57,13 @@ const OrderDetailSchema = {
 
 class OrderDetail extends Model {
   static associate(models) {
-    this.hasMany(models.ProjectCustomer, {
-      as: 'projectCustomers',
-      foreignKey: 'project_id',
+    this.hasMany(models.Tire, {
+      as: 'Tire',
+      foreignKey: 'tire_ID',
     });
-    this.belongsTo(models.Customer, {
-      as: 'Customer',
-      foreignKey: 'customer_id',
+    this.belongsTo(models.Order, {
+      as: 'Order',
+      foreignKey: 'order_ID',
     });
   }
 
@@ -71,7 +71,7 @@ class OrderDetail extends Model {
     return {
       sequelize,
       tableName: ORDERDETAILS_TABLE,
-      modelname: 'orderdetail',
+      modelname: 'orderDetail',
       timestamps: false,
     };
   }

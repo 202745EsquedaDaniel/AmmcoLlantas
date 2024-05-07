@@ -16,7 +16,7 @@ const CustomerSchema = {
   },
   contactPhone: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   email: {
     allowNull: false,
@@ -33,7 +33,7 @@ const CustomerSchema = {
 class Customer extends Model {
   static associate(models) {
     this.hasMany(models.Order, {
-      as: 'Order',
+      as: 'orders',
       foreignKey: 'order_ID',
     });
   }

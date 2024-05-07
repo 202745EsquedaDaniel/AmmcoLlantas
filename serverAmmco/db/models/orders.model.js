@@ -22,10 +22,6 @@ const OrderSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
-  name: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
   date: {
     allowNull: false,
     type: DataTypes.DATE,

@@ -19,7 +19,7 @@ const ProviderSchema = {
   },
   contactPhone: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   email: {
     allowNull: false,

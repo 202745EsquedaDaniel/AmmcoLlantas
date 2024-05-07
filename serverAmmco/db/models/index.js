@@ -1,8 +1,12 @@
-const { Customer, CustomerSchema } = require('./cliente.model');
+const { Tire, TireSchema } = require('./tires.model');
+const { Provider, ProviderSchema } = require('./providers.model');
+const { Order, OrderSchema } = require('./orders.model');
+const { Customer, CustomerSchema } = require('./customers.model');
+const { User, UserSchema } = require('./users.model');
+
 const { Project, ProjectSchema } = require('./proyectos.model');
 const { Worker, WorkerSchema } = require('./trabajadores.model');
 const { Service, ServiceSchema } = require('./servicios.model');
-const { User, UserSchema } = require('./users.model');
 const { Prestamo, PrestamoSchema } = require('./prestamos.model');
 const { WorkerCost, WorkerCostsSchema } = require('./WorkerCosts.model');
 
@@ -35,6 +39,11 @@ const { Tools, ToolsSchema } = require('./tools.model');
 
 function setupModels(sequelize) {
   Customer.init(CustomerSchema, Customer.config(sequelize));
+  Provider.init(ProviderSchema, Provider.config(sequelize));
+  Order.init(OrderSchema, Order.config(sequelize));
+  Tire.init(TireSchema, Tire.config(sequelize));
+  User.init(UserSchema, User.config(sequelize));
+
   Project.init(ProjectSchema, Project.config(sequelize));
   Worker.init(WorkerSchema, Worker.config(sequelize));
   WorkerCost.init(WorkerCostsSchema, WorkerCost.config(sequelize));
@@ -45,7 +54,6 @@ function setupModels(sequelize) {
   Service.init(ServiceSchema, Service.config(sequelize));
   Nomina.init(NominaSchema, Nomina.config(sequelize));
   ProjectWorker.init(ProjectWorkerSchema, ProjectWorker.config(sequelize));
-  User.init(UserSchema, User.config(sequelize));
   ProjectCustomer.init(
     ProjectCustomerSchema,
     ProjectCustomer.config(sequelize),

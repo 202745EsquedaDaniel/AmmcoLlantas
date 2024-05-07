@@ -1,8 +1,8 @@
 const { Model, Sequelize, DataTypes } = require('sequelize');
 
-const PROVIDER_TABLE = 'Providers';
+const CUSTOMER_TABLE = 'Customers';
 
-const ProviderSchema = {
+const CustomerSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -12,10 +12,7 @@ const ProviderSchema = {
   name: {
     allowNull: false,
     type: DataTypes.STRING,
-  },
-  address: {
-    allowNull: false,
-    type: DataTypes.STRING,
+    unique: true,
   },
   contactPhone: {
     allowNull: false,
@@ -33,26 +30,26 @@ const ProviderSchema = {
   },
 };
 
-class Provider extends Model {
+class Customer extends Model {
   static associate(models) {
-    this.hasMany(models.Tire, {
-      as: 'Tires',
-      foreignKey: 'tire_id',
+    this.hasMany(models.NominasSemanales, {
+      as: 'NominasSemanales',
+      foreignKey: 'worker_id',
     });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: PROVIDER_TABLE,
-      modelName: 'Provider',
+      tableName: CUSTOMER_TABLE,
+      modelName: 'Customer',
       timestamps: false,
     };
   }
 }
 
 module.exports = {
-  PROVIDER_TABLE,
-  ProviderSchema,
-  Provider,
+  CUSTOMER_TABLE,
+  CustomerSchema,
+  Customer,
 };

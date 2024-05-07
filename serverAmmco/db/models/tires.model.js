@@ -37,20 +37,11 @@ const TireSchema = {
   },
 };
 
-class Worker extends Model {
+class Tire extends Model {
   static associate(models) {
-    this.hasMany(models.ProjectWorker, {
-      as: 'projectWorkers',
-      foreignKey: 'worker_id',
-      include: [{ model: models.Project, as: 'project', attributes: ['name'] }],
-    });
-    this.hasMany(models.NominasSemanales, {
-      as: 'NominasSemanales',
-      foreignKey: 'worker_id',
-    });
-    this.hasMany(models.WorkerCost, {
-      as: 'WorkerCosts',
-      foreignKey: 'worker_id',
+    this.belongsTo(models.Provider, {
+      as: 'Provider',
+      foreignKey: 'provider_id',
     });
   }
 
@@ -58,23 +49,14 @@ class Worker extends Model {
     return {
       sequelize,
       tableName: TIRES_TABLE,
-      modelName: 'Worker',
+      modelName: 'Tire',
       timestamps: false,
-      hooks: {
-        beforeSave: (worker) => {
-          worker.salary;
-          if (worker.salary != 0) {
-            var diario = worker.salary / 7;
-            worker.salary_hour = diario;
-          }
-        },
-      },
     };
   }
 }
 
 module.exports = {
-  WORKER_TABLE: TIRES_TABLE,
-  WorkerSchema: TireSchema,
-  Worker,
+  TIRES_TABLE,
+  TireSchema,
+  Tire,
 };

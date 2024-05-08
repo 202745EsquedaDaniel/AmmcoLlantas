@@ -42,7 +42,7 @@ const OrderDetailSchema = {
     allowNull: false,
     type: DataTypes.INTEGER,
   },
-  total: {
+  subtotal: {
     allowNull: false,
     type: DataTypes.INTEGER,
     defaultValue: 0,
@@ -73,6 +73,14 @@ class OrderDetail extends Model {
       tableName: ORDERDETAILS_TABLE,
       modelname: 'orderDetail',
       timestamps: false,
+      hooks: {
+        beforeCreate: (orderDetail) => {
+          orderDetail.subtotal = orderDetail.quantity * orderDetail.unitPrice;
+        },
+        beforeUpdate: (orderDetail) => {
+          orderDetail.subtotal = orderDetail.quantity * orderDetail.unitPrice;
+        },
+      },
     };
   }
 }

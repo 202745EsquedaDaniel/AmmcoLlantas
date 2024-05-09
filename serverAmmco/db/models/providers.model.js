@@ -37,7 +37,7 @@ class Provider extends Model {
   static associate(models) {
     this.hasMany(models.Tire, {
       as: 'Tires',
-      foreignKey: 'tire_id',
+      foreignKey: 'provider_ID',
     });
   }
 

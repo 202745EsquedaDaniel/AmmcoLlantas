@@ -72,6 +72,11 @@ function setupModels(sequelize) {
   Abonos.associate(sequelize.models);
   Worker.associate(sequelize.models);
   WorkerCost.associate(sequelize.models);
+
+  Order.associate(sequelize.models);
+  OrderDetail.associate(sequelize.models);
+  Tire.associate(sequelize.models);
+  Provider.associate(sequelize.models);
 }
 
 module.exports = setupModels;

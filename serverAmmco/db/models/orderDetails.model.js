@@ -57,13 +57,13 @@ const OrderDetailSchema = {
 
 class OrderDetail extends Model {
   static associate(models) {
-    this.hasMany(models.Tire, {
-      as: 'Tire',
+    this.belongsTo(models.Tire, {
       foreignKey: 'tire_ID',
+      as: 'Tire',
     });
     this.belongsTo(models.Order, {
-      as: 'Order',
       foreignKey: 'order_ID',
+      as: 'order',
     });
   }
 

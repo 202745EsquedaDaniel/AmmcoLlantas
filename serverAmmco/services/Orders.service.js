@@ -8,7 +8,8 @@ class OrdersService {
   }
 
   async findOne(id) {
-    const order = await models.Order.findByPk(id);
+    const order = await models.Order.findByPk(id, { include: ['orderDetails'] });
+
     if (!order) {
       throw boom.notFound('Order not found');
     }

@@ -42,9 +42,10 @@ const OrderSchema = {
 class Order extends Model {
   static associate(models) {
     this.hasMany(models.OrderDetail, {
-      as: 'orderDetail',
-      foreignKey: 'orderDetail_ID',
+      as: 'orderDetails',
+      foreignKey: 'order_ID',
     });
+
     this.belongsTo(models.Customer, {
       as: 'Customer',
       foreignKey: 'customer_ID',

@@ -49,12 +49,12 @@ const TireSchema = {
 class Tire extends Model {
   static associate(models) {
     this.belongsTo(models.Provider, {
-      as: 'Provider',
       foreignKey: 'provider_ID',
+      as: 'provider',
     });
-    this.belongsTo(models.OrderDetail, {
-      as: 'OrderDetail',
-      foreignKey: 'orderDetal_ID',
+    this.hasMany(models.OrderDetail, {
+      as: 'OrderDetails',
+      foreignKey: 'tire_ID',
     });
   }
 

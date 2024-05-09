@@ -1,5 +1,7 @@
 const { Model, Sequelize, DataTypes } = require('sequelize');
 
+const { PROVIDER_TABLE } = require('./providers.model');
+
 const TIRES_TABLE = 'Tires';
 
 const TireSchema = {
@@ -10,8 +12,15 @@ const TireSchema = {
     type: DataTypes.INTEGER,
   },
   provider_ID: {
+    field: 'provider_ID',
     allowNull: false,
     type: DataTypes.INTEGER,
+    references: {
+      model: PROVIDER_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   },
   name: {
     allowNull: false,

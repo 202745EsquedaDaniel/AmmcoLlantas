@@ -17,7 +17,8 @@ export const InventorySystemProvider = ({children}) => {
                 console.log(error)
             }
         }
-    })
+        fetchData()
+    }, [])
     console.log(items)
 
     return (

@@ -1,22 +1,59 @@
-import { useContext } from "react"
-import { Layout } from "../../components/layout"
-import { InventorySystemContext } from "../../context"
-import { Card } from "../../components/card"
+import React, { useContext } from 'react';
+import { Layout } from '../../components/layout';
+import { InventorySystemContext } from '../../context';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Switch, IconButton } from '@mui/material';
+import { MoreVert as MoreVertIcon } from '@mui/icons-material';
 
-function Products(){
-    const context = useContext(InventorySystemContext)
+function Products() {
+    const context = useContext(InventorySystemContext);
+
     const renderView = () => {
-        if(context.items?.length > 0) {
+        if (context.items?.length > 0) {
             return (
-                context.items?.map(item=> (
-                <Card key={item.id} data={item}></Card>
-            )
-        )
-    )}
-         else {
-            return <p>No hay productos</p>
+                <TableContainer component={Paper} className=" "                   
+               sx={{
+                    width: '90%',
+                    borderRadius: '16px', 
+                    boxShadow: 'none', 
+                    overflow: 'hidden' 
+                }}
+            >
+                    <Table className=' rounded-2xl '>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Image</TableCell>
+                                <TableCell>Brand Name</TableCell>
+                                <TableCell>Model Name</TableCell>
+                                <TableCell>Quantity</TableCell>
+                                <TableCell>Price ($)</TableCell>
+                                <TableCell>Actions</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {context.items.map((item) => (
+                                <TableRow key={item.id}>
+                                    <TableCell><img src="https://e7.pngegg.com/pngimages/525/536/png-clipart-tires-tires.png" alt={item.category} width="50" /></TableCell>
+        
+                                    <TableCell>{item.brand}</TableCell>
+                                    <TableCell>{item.model}</TableCell>
+                                    <TableCell>{item.quantity}</TableCell>
+                                    <TableCell>{item.price}</TableCell>
+                                    <TableCell>
+                                        <IconButton>
+                                            <MoreVertIcon />
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            );
+        } else {
+            return <p>No hay productos</p>;
         }
-    }
+    };
+
     return(
         
 
@@ -39,10 +76,12 @@ function Products(){
                         <button className=" bg-blue-500 text-white rounded-xl p-2 mt-4">Guardar</button>
                     </div>
                 </div>
-                <div>
-                {
+                <div className=' w-full flex items-center justify-center bg-grayInput '>
+                    
+                    {
                     renderView()
-                }
+                    }
+        
                 </div>
 
             </div>

@@ -1,4 +1,5 @@
 import { BuildingStorefrontIcon, HomeModernIcon, CircleStackIcon, TruckIcon, ClipboardDocumentCheckIcon, UserCircleIcon} from "@heroicons/react/24/solid"
+import { FaTruckMoving } from "react-icons/fa";
 
 const OrdersIcon = () => {
     return (
@@ -9,13 +10,13 @@ const OrdersIcon = () => {
 
 const ProvidersIcon = () => {
     return (
-        <TruckIcon className="h-6 w-6" />
+        <FaTruckMoving className="h-6 w-6" />
     )
  }
 
 const ProductsIcon = () => {
     return (
-        <CircleStackIcon className="h-6 w-6" />
+        <CircleStackIcon className="h-8 w-8" />
     )
  }
 

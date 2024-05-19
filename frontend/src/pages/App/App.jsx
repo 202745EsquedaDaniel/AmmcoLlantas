@@ -5,10 +5,11 @@ import { NavBar } from '../../components/navbar'
 import { Sidebar } from '../../components/sidebar'
 import { InventorySystemProvider } from '../../context'
 import { Manage_User } from '../manage user'
-import { Orders } from '../order'
+import { Orders } from '../Orders'
 import { Products } from '../product'
 import { Providers } from '../provider'
 import { CheckoutSideMenu } from '../../components/checkoutSideMenu'
+import { MyOrder } from '../MyOrder'
 
 
 
@@ -18,6 +19,7 @@ const AppRoutes = () => {
     {path:"/products", element:<Products/>},
     {path:"/providers", element:<Home/>},
     {path:"/orders", element:<Orders/>},
+    {path: "/orders/last", element:<MyOrder/>},
     {path:"/manage_user", element:<Manage_User/>},
     {path:"/providers", element:<Providers/>}
 

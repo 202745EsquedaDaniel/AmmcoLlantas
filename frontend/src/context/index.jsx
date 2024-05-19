@@ -4,6 +4,7 @@ import { apiurl } from "../api"
 const InventorySystemContext = createContext()
 
 export const InventorySystemProvider = ({children}) => {
+    const [order, setOrder] = useState([])
 
     //cart
     const [items, setItems] = useState(null)
@@ -14,6 +15,8 @@ export const InventorySystemProvider = ({children}) => {
     const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false)
     const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true)
     const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false)
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,7 +43,9 @@ export const InventorySystemProvider = ({children}) => {
             setCartProducts,
             isCheckoutSideMenuOpen,
             openCheckoutSideMenu,
-            closeCheckoutSideMenu
+            closeCheckoutSideMenu,
+            order,
+            setOrder
         }}
         >
             {children}

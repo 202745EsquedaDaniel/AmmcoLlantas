@@ -100,7 +100,7 @@ function Products() {
         
 
         <Layout>
-            <div className=" flex relative">
+            <div className=" w-full flex relative">
                 <div className=" bg-white h-screen p-4">
                     <h2 className=" text-lg">Agregar Nuevo Producto</h2>
                     <div className=" border-y-2 pb-2">

@@ -9,6 +9,19 @@ import { Link } from "react-router-dom";
 const CheckoutSideMenu = () => {
     const context = useContext(InventorySystemContext)
 
+    const handleCheckout = () => {
+    const orderToAdd = {
+        date: new Date().toLocaleDateString(),
+        products: context.cartProducts,
+        totalProducts: context.count,
+        totalprice: totalprice(context.cartProducts)
+    }
+    context.setOrder([...context.order, orderToAdd])
+    context.setCartProducts([])
+    context.setCount(0)
+    context.closeCheckoutSideMenu()
+    }
+
     const handleDelete = (id) => {
         const filteredProducts = context.cartProducts.filter(product => product.id !== id)
         context.setCartProducts(filteredProducts)
@@ -44,8 +57,9 @@ const CheckoutSideMenu = () => {
                     <span className=" font-light">Total:</span>
                     <span className=" font-medium text-2xl">${totalprice(context.cartProducts)}</span>
                 </p>
-                <Link to="/my-orders/last">
+                <Link to="/orders/last">
                     <button className=" w-full bg-black text-white py-3 rounded-lg"
+                    onClick={() => handleCheckout()}
                     >Checkout</button>
                 </Link>
             </div>

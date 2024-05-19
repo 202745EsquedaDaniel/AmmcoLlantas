@@ -38,6 +38,8 @@ function Products() {
 
     const addProductsToCart = (productData) => {
         context.setCartProducts([...context.cartProducts, productData])
+        context.setCount(context.count + 1)
+        context.openCheckoutSideMenu()
         console.log(context.cartProducts)
     }
 
@@ -71,9 +73,9 @@ function Products() {
                                 <TableRow key={item.id}>
                                     <TableCell><img src="https://e7.pngegg.com/pngimages/525/536/png-clipart-tires-tires.png" alt={item.category} width="50" /></TableCell>
         
-                                    <TableCell>{item.brand}</TableCell>
+                                    <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.model}</TableCell>
-                                    <TableCell>{item.quantity}</TableCell>
+                                    <TableCell>{item.stock}</TableCell>
                                     <TableCell>{item.price}</TableCell>
                                     <TableCell>
                                         <IconButton>

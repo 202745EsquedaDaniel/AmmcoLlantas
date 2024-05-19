@@ -1,5 +1,5 @@
 import { BuildingStorefrontIcon, HomeModernIcon, CircleStackIcon, TruckIcon, ClipboardDocumentCheckIcon, UserCircleIcon} from "@heroicons/react/24/solid"
-import { FaTruckMoving, FaShoppingCart, FaRegPlusSquare  } from "react-icons/fa";
+import { FaTruckMoving, FaShoppingCart, FaRegPlusSquare, FaRegCalendarCheck, FaDollarSign, FaRegWindowClose    } from "react-icons/fa";
 import { FaSquareCheck } from "react-icons/fa6";
 
 const OrdersIcon = () => {
@@ -7,6 +7,26 @@ const OrdersIcon = () => {
         <ClipboardDocumentCheckIcon className="h-6 w-6" />
     )
  }
+ 
+ const XIcon = () => {
+    return (
+        <FaRegWindowClose className="h-6 w-6" />
+    )
+}
+
+ const DollarIcon = () => {
+    return (
+        <FaDollarSign className="h-6 w-6" />
+    )
+    }
+
+ const CalendarIcon = () => {
+    return (
+        <FaRegCalendarCheck className="h-6 w-6" />
+    )
+ }
+
+
 
  const AddIcon = () => {
     return (
@@ -60,4 +80,4 @@ const UserIcon = () => {
  }
 
 
- export { OrdersIcon, CartIcon, ProvidersIcon, ProductsIcon, HomeIcon, StoreIcon, UserIcon, AddIcon, CheckIcon}
+ export { OrdersIcon, CartIcon, ProvidersIcon, ProductsIcon, HomeIcon, StoreIcon, UserIcon, AddIcon, CheckIcon, DollarIcon, CalendarIcon, XIcon}

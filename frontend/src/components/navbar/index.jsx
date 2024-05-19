@@ -1,32 +1,28 @@
 import { useContext } from 'react';
-import {NavLink} from 'react-router-dom' ;
+import { NavLink } from 'react-router-dom';
 import { InventorySystemContext } from '../../context';
 import { CartIcon } from '../icons';
 
-
 const NavBar = () => { 
-    const context = useContext(InventorySystemContext)
+    const context = useContext(InventorySystemContext);
 
-    return(
-        <nav className='w-full flex justify-between items-center fixed z-10 py-5 px-8 top-0 left-64 text-sm font-light bg-red-400'>
+    return (
+        <nav className='fixed top-0 left-56 w-[calc(100%-14rem)] z-10 py-5 px-8 text-sm font-light bg-black flex justify-between items-center'>
             <ul className='flex items-center gap-3'>
-                <li className=' font-semibold text-lg'>
-                    <NavLink
-                    to="/">
-                        Shopi
+                <li className='font-semibold text-lg text-white'>
+                    <NavLink to="/">
+                        Amm.co Llantas
                     </NavLink>
                 </li>
             </ul>
-            <ul className='flex items-center gap-3'>
-                <li className='flex'>
-                 <CartIcon />
-                    <div className='flex items-center'>
-                        <p> aqui va un context punto count entre escorchos</p>
-                    </div>
+            <ul className='flex items-center gap-3 text-white'>
+                <li className='flex items-center'>
+                    <CartIcon />
+                    <p className='ml-1'>{context.count}</p>
                 </li>
             </ul>
         </nav>
-    )
+    );
 }
 
-export {NavBar}
+export { NavBar };

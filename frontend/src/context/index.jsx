@@ -5,11 +5,15 @@ const InventorySystemContext = createContext()
 
 export const InventorySystemProvider = ({children}) => {
 
+    //cart
     const [items, setItems] = useState(null)
-
     const [count, setCount] = useState(0)
-
     const [cartProducts, setCartProducts] = useState([])
+
+    //cart aside checkout
+    const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false)
+    const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true)
+    const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,7 +37,10 @@ export const InventorySystemProvider = ({children}) => {
             count,
             setCount,
             cartProducts,
-            setCartProducts
+            setCartProducts,
+            isCheckoutSideMenuOpen,
+            openCheckoutSideMenu,
+            closeCheckoutSideMenu
         }}
         >
             {children}

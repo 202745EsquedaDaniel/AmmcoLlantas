@@ -8,6 +8,7 @@ import { Manage_User } from '../manage user'
 import { Orders } from '../order'
 import { Products } from '../product'
 import { Providers } from '../provider'
+import { CheckoutSideMenu } from '../../components/checkoutSideMenu'
 
 
 
@@ -30,6 +31,7 @@ function App() {
       <BrowserRouter>
       <AppRoutes></AppRoutes>
       <NavBar></NavBar>
+       <CheckoutSideMenu></CheckoutSideMenu>
       <Sidebar></Sidebar>
       </BrowserRouter>
     </InventorySystemProvider>

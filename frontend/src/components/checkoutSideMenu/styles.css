@@ -1,0 +1,20 @@
+.scrollable-cards {
+    overflow: scroll;
+    display: hidden;
+}
+
+  .scrollable-cards::-webkit-scrollbar {
+    width: 8px;
+    scroll-behavior: smooth;
+  }
+
+  .scrollable-cards::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  .scrollable-cards::-webkit-scrollbar-thumb {
+    background-color: #141414;
+    border-radius: 10px;
+    border: 3px solid #000000;
+    transition: background-color 0.2s ease;
+  }

@@ -7,6 +7,10 @@ export const InventorySystemProvider = ({children}) => {
 
     const [items, setItems] = useState(null)
 
+    const [count, setCount] = useState(0)
+
+    const [cartProducts, setCartProducts] = useState([])
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -25,7 +29,11 @@ export const InventorySystemProvider = ({children}) => {
         <InventorySystemContext.Provider
         value={{
             items,
-            setItems
+            setItems,
+            count,
+            setCount,
+            cartProducts,
+            setCartProducts
         }}
         >
             {children}

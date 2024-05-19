@@ -5,6 +5,8 @@ export default {
     extend: {
       colors: {
         grayInput: "#f6f6f9",
+        bluebg:"#e3e4ff",
+        blueactive:"#2124ff"
       }
     },
   },

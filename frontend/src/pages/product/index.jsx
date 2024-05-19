@@ -3,9 +3,45 @@ import { Layout } from '../../components/layout';
 import { InventorySystemContext } from '../../context';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Switch, IconButton } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
+import { AddIcon, CheckIcon } from '../../components/icons';
 
 function Products() {
     const context = useContext(InventorySystemContext);
+
+
+    const renderIcon = (id, data) => {
+        const isInCart = context.cartProducts.filter(product => product.id === id).length > 0;
+
+
+        if (isInCart) {
+            return (
+            <div className='flex justify-center items-center text-red-500 w-6 h-6 rounded-full m-2 p-1'
+            onClick={(e) => {
+                e.stopPropagation()
+            }}>
+                <CheckIcon />
+            </div>
+            )
+        } else {
+            return(
+            <div className='flex justify-center items-center bg-black text-white w-6 h-6 m-2 p-1'
+            onClick={(e) => {
+                e.stopPropagation()
+                addProductsToCart(data)
+                console.log(data)
+            }}>
+                <AddIcon />
+            </div>
+            )
+        }
+    }
+
+    const addProductsToCart = (productData) => {
+        context.setCartProducts([...context.cartProducts, productData])
+        console.log(context.cartProducts)
+    }
+
+
 
     const renderView = () => {
         if (context.items?.length > 0) {
@@ -21,12 +57,13 @@ function Products() {
                     <Table className=' rounded-2xl '>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Image</TableCell>
-                                <TableCell>Brand Name</TableCell>
-                                <TableCell>Model Name</TableCell>
-                                <TableCell>Quantity</TableCell>
-                                <TableCell>Price ($)</TableCell>
-                                <TableCell>Actions</TableCell>
+                                <TableCell>Imagen</TableCell>
+                                <TableCell>Marca</TableCell>
+                                <TableCell>Modelo</TableCell>
+                                <TableCell>Cantidad</TableCell>
+                                <TableCell>precio ($)</TableCell>
+                                <TableCell>Accion</TableCell>
+                                <TableCell>Agregar al Carrito</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -42,6 +79,9 @@ function Products() {
                                         <IconButton>
                                             <MoreVertIcon />
                                         </IconButton>
+                                    </TableCell>
+                                    <TableCell>
+                                        {renderIcon(item.id, item)}                 
                                     </TableCell>
                                 </TableRow>
                             ))}

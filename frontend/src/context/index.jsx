@@ -6,17 +6,10 @@ const InventorySystemContext = createContext()
 export const InventorySystemProvider = ({children}) => {
     const [order, setOrder] = useState([])
 
+    const [searchByTitle, setSearchByTitle] = useState(null)
+
     //cart
     const [items, setItems] = useState(null)
-    const [count, setCount] = useState(0)
-    const [cartProducts, setCartProducts] = useState([])
-
-    //cart aside checkout
-    const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false)
-    const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true)
-    const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false)
-
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,7 +23,41 @@ export const InventorySystemProvider = ({children}) => {
         }
         fetchData()
     }, [])
-    console.log(items)
+    
+
+    const [count, setCount] = useState(0)
+    const [cartProducts, setCartProducts] = useState([])
+
+    //cart aside checkout
+    const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false)
+    const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true)
+    const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false)
+
+    const [filteredItems, setFilteredItems] = useState(null)
+
+    const filterItemsByTitle = (items, searchByTitle) => {
+        return items?.filter(item => item.model.toLowerCase().includes(searchByTitle.toLowerCase()))
+    }
+
+    const filterBy = (searchType, items, searchByTitle) => {
+        if (searchType === 'BY_TITLE') {
+            return filterItemsByTitle(items, searchByTitle)
+          }
+        if (!searchByTitle) {
+            return items
+        }
+    }
+
+    useEffect(() => {
+        if (searchByTitle) {
+            setFilteredItems(filterBy('BY_TITLE', items, searchByTitle))
+        } else {
+            setFilteredItems(items)
+        }
+    }, [searchByTitle, items])
+
+
+
 
     return (
         <InventorySystemContext.Provider
@@ -45,7 +72,10 @@ export const InventorySystemProvider = ({children}) => {
             openCheckoutSideMenu,
             closeCheckoutSideMenu,
             order,
-            setOrder
+            setOrder,
+            setSearchByTitle,
+            searchByTitle,
+            filteredItems
         }}
         >
             {children}

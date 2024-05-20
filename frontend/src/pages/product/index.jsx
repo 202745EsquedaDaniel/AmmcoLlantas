@@ -46,7 +46,7 @@ function Products() {
 
 
     const renderView = () => {
-        if (context.items?.length > 0) {
+        if (context.filteredItems?.length > 0) {
             return (
                 <TableContainer component={Paper} className=" "                   
                sx={{
@@ -69,7 +69,7 @@ function Products() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {context.items.map((item) => (
+                            {context.filteredItems.map((item) => (
                                 <TableRow key={item.id}>
                                     <TableCell><img src="https://e7.pngegg.com/pngimages/525/536/png-clipart-tires-tires.png" alt={item.category} width="50" /></TableCell>
         
@@ -118,8 +118,16 @@ function Products() {
                         <button className=" bg-blue-500 text-white rounded-xl p-2 mt-4">Guardar</button>
                     </div>
                 </div>
-                <div className=' w-full flex items-center justify-center bg-grayInput '>
-                    
+                <div className=' w-full flex flex-col items-center justify-center bg-grayInput '>
+                   <input 
+                        type='text'
+                        placeholder='Buscar Producto'
+                        className=' rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none'
+                        onChange={(e) => {
+                            context.setSearchByTitle(e.target.value)
+                        }} 
+                   >
+                   </input> 
                     {
                     renderView()
                     }

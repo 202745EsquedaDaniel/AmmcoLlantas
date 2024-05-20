@@ -20,24 +20,24 @@ const Sidebar = () => {
                 <li>
                     <NavLink to="/orders" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
                         <OrdersIcon />
-                        Orders
+                        Ordenes
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/products" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
                     <PiTireDuotone />
-                        Products
+                        Llantas
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to="/providers" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
+                        <ProvidersIcon />
+                        Proveedores
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/customers" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
-                        <ProvidersIcon />
-                        Customers
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/analytics" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
-                        Analytics
+                        Clientes
                     </NavLink>
                 </li>
             </ul>

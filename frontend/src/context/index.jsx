@@ -11,6 +11,12 @@ export const InventorySystemProvider = ({children}) => {
     //cart
     const [items, setItems] = useState(null)
 
+    const [providers, setProviders] = useState(null)
+
+    const [customers, setCustomer] = useState([])
+
+    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -23,6 +29,33 @@ export const InventorySystemProvider = ({children}) => {
         }
         fetchData()
     }, [])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch( `${apiurl}/customers`)
+                const data = await res.json()
+                setCustomer(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch( `${apiurl}/providers`)
+                const data = await res.json()
+                setProviders(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchData()
+    }, [])
+    
     
 
     const [count, setCount] = useState(0)
@@ -75,7 +108,11 @@ export const InventorySystemProvider = ({children}) => {
             setOrder,
             setSearchByTitle,
             searchByTitle,
-            filteredItems
+            filteredItems,
+            providers,
+            setProviders,
+            customers,
+            setCustomer
         }}
         >
             {children}

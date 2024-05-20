@@ -6,7 +6,7 @@ import { MoreVert as MoreVertIcon } from '@mui/icons-material';
 import { AddIcon, CheckIcon } from '../../components/icons';
 import { apiurl } from '../../api';
 
-function Providers() {
+function Customers() {
     const context = useContext(InventorySystemContext);
     const [page, setPage] = useState(1);
     const itemsPerPage = 6;
@@ -17,7 +17,6 @@ function Providers() {
 
     const [formData, setFormData] = useState({
         name: '',
-        address: '',
         contactPhone: '',
         email: ''
     });
@@ -32,15 +31,13 @@ function Providers() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Validación de los datos (puedes mejorar esto según tus necesidades)
-        if (!formData.name || !formData.address || !formData.contactPhone || !formData.email) {
+        if (!formData.name || !formData.contactPhone || !formData.email) {
             alert('Todos los campos son obligatorios');
             return;
         }
 
         try {
-            const response = await fetch(`${apiurl}/providers`, {
+            const response = await fetch(`${apiurl}/customers`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -48,20 +45,20 @@ function Providers() {
                 body: JSON.stringify(formData)
             });
             if (!response.ok) {
-                throw new Error('Error al guardar el proveedor');
+                throw new Error('Error al guardar el Cliente');
             }
-            const newProvider = await response.json();
-            context.setProviders([...context.providers, newProvider]);
-            alert('Proveedor guardado con éxito');
+            const newCustomer = await response.json();
+            context.setCustomer([...context.customers, newCustomer]);
+            alert('Cliente guardado con éxito');
         } catch (error) {
-            alert('Error al guardar el proveedor ${error.message}');
+            alert('Error al guardar el Cliente ${error.message}');
         }
     };
 
     const renderView = () => {
         if (context.filteredItems?.length > 0) {
             const startIndex = (page - 1) * itemsPerPage;
-            const paginatedItems = context.providers.slice(startIndex, startIndex + itemsPerPage);
+            const paginatedItems = context.customers.slice(startIndex, startIndex + itemsPerPage);
 
             return (
                 <TableContainer component={Paper} className=""
@@ -77,7 +74,6 @@ function Providers() {
                             <TableRow>
                                 <TableCell>Imagen</TableCell>
                                 <TableCell>Nombre</TableCell>
-                                <TableCell>Direccion</TableCell>
                                 <TableCell>Telefono</TableCell>
                                 <TableCell>email</TableCell>
                                 <TableCell>Acción</TableCell>
@@ -88,7 +84,6 @@ function Providers() {
                                 <TableRow key={item.id}>
                                     <TableCell><img src="https://e7.pngegg.com/pngimages/525/536/png-clipart-tires-tires.png" alt={item.category} width="50" /></TableCell>
                                     <TableCell>{item.name}</TableCell>
-                                    <TableCell>{item.address}</TableCell>
                                     <TableCell>{item.contactPhone}</TableCell>
                                     <TableCell>{item.email}</TableCell>
                                     <TableCell>
@@ -117,7 +112,7 @@ function Providers() {
         <Layout>
             <div className="w-full flex relative">
                 <div className="bg-white h-screen p-4">
-                    <h2 className="text-lg">Agregar Nuevo Proveedor</h2>
+                    <h2 className="text-lg">Agregar Nuevo Cliente</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="border-y-2 pb-2">
                             <p>Proveedor INFO</p>
@@ -127,16 +122,7 @@ function Providers() {
                                 name="name"
                                 value={formData.name}
                                 onChange={handleInputChange}
-                                placeholder="Llantera del 7"
-                                className="bg-grayInput rounded-xl p-2"
-                            />
-                            <p className="font-semibold mt-3">Direccion</p>
-                            <input
-                                type="text"
-                                name="address"
-                                value={formData.address}
-                                onChange={handleInputChange}
-                                placeholder="Valentin Fuentes"
+                                placeholder="Antonio"
                                 className="bg-grayInput rounded-xl p-2"
                             />
                             <p className="font-semibold mt-3">Telefono</p>
@@ -174,4 +160,4 @@ function Providers() {
     );
 }
 
-export { Providers };
+export { Customers};

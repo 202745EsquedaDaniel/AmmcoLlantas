@@ -10,6 +10,7 @@ import { Products } from '../product'
 import { Providers } from '../provider'
 import { CheckoutSideMenu } from '../../components/checkoutSideMenu'
 import { MyOrder } from '../MyOrder'
+import { Customers } from '../customers'
 
 
 
@@ -17,12 +18,11 @@ const AppRoutes = () => {
   let routes = useRoutes([
     {path:"/", element:<Home/>},
     {path:"/products", element:<Products/>},
-    {path:"/providers", element:<Home/>},
     {path:"/orders", element:<Orders/>},
     {path: "/orders/last", element:<MyOrder/>},
     {path:"/manage_user", element:<Manage_User/>},
-    {path:"/providers", element:<Providers/>}
-
+    {path:"/providers", element:<Providers/>},
+    {path:"/customers", element:<Customers/>}
   ])
   return routes
 }

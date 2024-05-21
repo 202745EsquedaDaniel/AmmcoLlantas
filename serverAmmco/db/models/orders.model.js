@@ -26,6 +26,21 @@ const OrderSchema = {
     allowNull: false,
     type: DataTypes.DATE,
   },
+  alineacion:{
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  balanceo:{
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  pivotes:{
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
   total: {
     allowNull: false,
     type: DataTypes.INTEGER,

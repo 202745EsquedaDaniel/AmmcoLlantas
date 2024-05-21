@@ -11,6 +11,7 @@ import { Providers } from '../provider'
 import { CheckoutSideMenu } from '../../components/checkoutSideMenu'
 import { MyOrder } from '../MyOrder'
 import { Customers } from '../customers'
+import { EditOrder } from '../editOrder'
 
 
 
@@ -20,6 +21,7 @@ const AppRoutes = () => {
     {path:"/products", element:<Products/>},
     {path:"/orders", element:<Orders/>},
     {path: "/orders/last", element:<MyOrder/>},
+    {path:"/orders/:id", element:<EditOrder/>},
     {path:"/manage_user", element:<Manage_User/>},
     {path:"/providers", element:<Providers/>},
     {path:"/customers", element:<Customers/>}

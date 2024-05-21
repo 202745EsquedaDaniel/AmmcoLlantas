@@ -107,67 +107,88 @@ function MyOrder() {
 
   return (
     <Layout>
-      <div className="w-full flex bg-grayInput">
-        <div className="flex items-center justify-center w-80 relative mb-2">
-          <h1>My order</h1>
+      <div className="w-full p-4 bg-gray-100">
+        <div className="mb-4 text-center">
+          <h1 className="text-2xl font-bold">My Order</h1>
         </div>
 
-        <div className="flex flex-col w-80">
-          {context.order?.[index]?.products.map((product) => (
-            <div key={product.id}>
-              <CartCard
-                id={product.id}
-                name={product.name}
-                imageUrl={product.images}
-                price={product.price}
-              />
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1">
+            {context.order?.[index]?.products.map((product) => (
+              <div key={product.id} className="mb-4">
+                <CartCard
+                  id={product.id}
+                  name={product.name}
+                  imageUrl={product.images}
+                  price={product.price}
+                />
+                <input
+                  type="number"
+                  placeholder="Cantidad"
+                  className="w-full p-2 border border-gray-300 rounded"
+                  value={quantities[product.id] || ''}
+                  onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="flex-1 p-4 bg-white shadow rounded">
+            <div className="mb-4">
+              <label htmlFor="customer" className="block text-sm font-medium text-gray-700">
+                Select Customer:
+              </label>
+              <select
+                id="customer"
+                className="w-full p-2 border border-gray-300 rounded mt-1"
+                value={customerID}
+                onChange={handleCustomerChange}
+              >
+                <option value="" disabled>
+                  Select a customer
+                </option>
+                {context.customers.map((customer) => (
+                  <option key={customer.id} value={customer.id}>
+                    {customer.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="alineacion" className="block text-sm font-medium text-gray-700">
+                Costo de Alineación:
+              </label>
               <input
                 type="number"
-                placeholder="Cantidad"
-                value={quantities[product.id] || ''}
-                onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                id="alineacion"
+                className="w-full p-2 border border-gray-300 rounded mt-1"
+                value={alineacion}
+                onChange={handleAlineacionChange}
               />
             </div>
-          ))}
-        </div>
 
-        <div className="ml-2">
-          <div>
-            <label htmlFor="customer">Select Customer: </label>
-            <select id="customer" value={customerID} onChange={handleCustomerChange}>
-              <option value="" disabled>
-                Select a customer
-              </option>
-              {context.customers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="mb-4">
+              <label htmlFor="balanceo" className="block text-sm font-medium text-gray-700">
+                Costo de Balanceo:
+              </label>
+              <input
+                type="number"
+                id="balanceo"
+                className="w-full p-2 border border-gray-300 rounded mt-1"
+                value={balanceo}
+                onChange={handleBalanceoChange}
+              />
+            </div>
 
-          <div>
-            <label htmlFor="alineacion">Costo de Alineación: </label>
-            <input
-              type="number"
-              id="alineacion"
-              value={alineacion}
-              onChange={handleAlineacionChange}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="balanceo">Costo de Balanceo: </label>
-            <input
-              type="number"
-              id="balanceo"
-              value={balanceo}
-              onChange={handleBalanceoChange}
-            />
-          </div>
-
-          <div>
-            <button onClick={handleSubmit}>Submit Order</button>
+            <div>
+              <button
+                onClick={handleSubmit}
+                className="w-full p-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700"
+              >
+                Submit Order
+              </button>
+            </div>
           </div>
         </div>
       </div>

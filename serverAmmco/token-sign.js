@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'myCat';
+const secret = 'P1zzaHut';
 const payload = {
   sub: 1,
   role: 'customer',

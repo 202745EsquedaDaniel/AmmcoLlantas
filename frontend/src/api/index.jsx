@@ -1,1 +1,1 @@
-export const apiurl = 'http://localhost:3000/Api/v1';
+export const apiurl = 'https://ammcollantas-backend-production.up.railway.app/Api/v1';

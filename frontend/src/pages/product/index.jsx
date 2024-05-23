@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Layout } from '../../components/layout';
 import { InventorySystemContext } from '../../context';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Pagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Pagination, Menu, MenuItem } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
 import { AddIcon, CheckIcon } from '../../components/icons';
+import { apiurl } from '../../api';
+import { EditProduct } from '../../components/editProduct';
 
 function Products() {
     const context = useContext(InventorySystemContext);
@@ -12,6 +14,46 @@ function Products() {
 
     const handlePageChange = (event, value) => {
         setPage(value);
+    };
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+    const handleMenuClick = (event, product) => {
+        setAnchorEl(event.currentTarget);
+        setSelectedProduct(product);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleEdit = () => {
+        setIsEditModalOpen(true);
+        handleMenuClose();
+    };
+
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`${apiurl}/tires/${selectedProduct.id}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                throw new Error('Error al eliminar el Producto');
+            }
+            context.setProducts(context.products.filter(product => product.id !== selectedProduct.id));
+            alert('Producto eliminado con éxito');
+            handleMenuClose();
+        } catch (error) {
+            alert(`Error al eliminar el Producto ${error.message}`);
+        }
+    };
+
+    const handleUpdate = (updatedProduct) => {
+        context.setProducts(context.products.map(product =>
+            product.id === updatedProduct.id ? updatedProduct : product
+        ));
     };
 
     const renderIcon = (id, data) => {
@@ -82,9 +124,18 @@ function Products() {
                                     <TableCell>{item.stock}</TableCell>
                                     <TableCell>{item.price}</TableCell>
                                     <TableCell>
-                                        <IconButton>
+                                        <IconButton onClick={(event) => handleMenuClick(event, item)}>
                                             <MoreVertIcon />
                                         </IconButton>
+                                        <Menu
+                                            anchorEl={anchorEl}
+                                            keepMounted
+                                            open={Boolean(anchorEl)}
+                                            onClose={handleMenuClose}
+                                        >
+                                            <MenuItem onClick={handleEdit}>Editar</MenuItem>
+                                            <MenuItem onClick={handleDelete}>Eliminar</MenuItem>
+                                        </Menu>
                                     </TableCell>
                                     <TableCell>
                                         {renderIcon(item.id, item)}
@@ -137,6 +188,13 @@ function Products() {
                     />
                     {renderView()}
                 </div>
+                {isEditModalOpen && (
+                    <EditProduct
+                        product={selectedProduct}
+                        onClose={() => setIsEditModalOpen(false)}
+                        onUpdate={handleUpdate}
+                    />
+                )}
             </div>
         </Layout>
     );

@@ -6,7 +6,6 @@ const {OrderDetailSchema, ORDERDETAILS_TABLE} = require("../models/orderDetails.
 const {UserSchema, USER_TABLE} = require("../models/users.model")
 const {TireSchema, TIRES_TABLE} = require("../models/tires.model")
 const {ProviderSchema, PROVIDER_TABLE} = require("../models/providers.model")
-const { UserSchema, USER_TABLE } = require("../models/users.model");
 
 
 module.exports = {
@@ -17,7 +16,6 @@ module.exports = {
     await queryInterface.createTable(PROVIDER_TABLE, ProviderSchema);
     await queryInterface.createTable(TIRES_TABLE, TireSchema);
     await queryInterface.createTable(ORDERDETAILS_TABLE, OrderDetailSchema);
-    await queryInterface.createTable(USER_TABLE, UserSchema);
   },
 
   down: async (queryInterface) => {
@@ -27,6 +25,5 @@ module.exports = {
     await queryInterface.dropTable(USER_TABLE);
     await queryInterface.dropTable(TIRES_TABLE);
     await queryInterface.dropTable(PROVIDER_TABLE);
-    await queryInterface.dropTable(USER_TABLE);
   }
 };

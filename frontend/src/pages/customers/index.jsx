@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Layout } from '../../components/layout';
 import { InventorySystemContext } from '../../context';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Pagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Pagination, Menu, MenuItem } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
 import { AddIcon, CheckIcon, CustomersIcon } from '../../components/icons';
 import { apiurl } from '../../api';
+import { EditCustomer } from '../../components/editCustomer'; // Import the EditCustomer component
 
 function Customers() {
     const context = useContext(InventorySystemContext);
@@ -51,8 +52,48 @@ function Customers() {
             context.setCustomer([...context.customers, newCustomer]);
             alert('Cliente guardado con éxito');
         } catch (error) {
-            alert('Error al guardar el Cliente ${error.message}');
+            alert(`Error al guardar el Cliente ${error.message}`);
         }
+    };
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedCustomer, setSelectedCustomer] = useState(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+    const handleMenuClick = (event, customer) => {
+        setAnchorEl(event.currentTarget);
+        setSelectedCustomer(customer);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleEdit = () => {
+        setIsEditModalOpen(true);
+        handleMenuClose();
+    };
+
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`${apiurl}/customers/${selectedCustomer.id}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                throw new Error('Error al eliminar el Cliente');
+            }
+            context.setCustomer(context.customers.filter(customer => customer.id !== selectedCustomer.id));
+            alert('Cliente eliminado con éxito');
+            handleMenuClose();
+        } catch (error) {
+            alert(`Error al eliminar el Cliente ${error.message}`);
+        }
+    };
+
+    const handleUpdate = (updatedCustomer) => {
+        context.setCustomer(context.customers.map(customer =>
+            customer.id === updatedCustomer.id ? updatedCustomer : customer
+        ));
     };
 
     const renderView = () => {
@@ -82,14 +123,23 @@ function Customers() {
                         <TableBody>
                             {paginatedItems.map((item) => (
                                 <TableRow key={item.id}>
-                                    <TableCell><CustomersIcon></CustomersIcon></TableCell>
+                                    <TableCell><CustomersIcon /></TableCell>
                                     <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.contactPhone}</TableCell>
                                     <TableCell>{item.email}</TableCell>
                                     <TableCell>
-                                        <IconButton>
+                                        <IconButton onClick={(event) => handleMenuClick(event, item)}>
                                             <MoreVertIcon />
                                         </IconButton>
+                                        <Menu
+                                            anchorEl={anchorEl}
+                                            keepMounted
+                                            open={Boolean(anchorEl)}
+                                            onClose={handleMenuClose}
+                                        >
+                                            <MenuItem onClick={handleEdit}>Editar</MenuItem>
+                                            <MenuItem onClick={handleDelete}>Eliminar</MenuItem>
+                                        </Menu>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -152,12 +202,18 @@ function Customers() {
                     </form>
                 </div>
                 <div className='w-full flex flex-col items-center justify-center bg-grayInput'>
-
                     {renderView()}
                 </div>
+                {isEditModalOpen && (
+                    <EditCustomer
+                        customer={selectedCustomer}
+                        onClose={() => setIsEditModalOpen(false)}
+                        onUpdate={handleUpdate}
+                    />
+                )}
             </div>
         </Layout>
     );
 }
 
-export { Customers};
+export { Customers };

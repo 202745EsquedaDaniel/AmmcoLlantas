@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Layout } from '../../components/layout';
 import { InventorySystemContext } from '../../context';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Pagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Pagination, Menu, MenuItem } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
-import { AddIcon, CheckIcon } from '../../components/icons';
 import { apiurl } from '../../api';
+import { EditProvider } from '../../components/editProvider';
 
 function Providers() {
     const context = useContext(InventorySystemContext);
@@ -32,8 +32,6 @@ function Providers() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Validación de los datos (puedes mejorar esto según tus necesidades)
         if (!formData.name || !formData.address || !formData.contactPhone || !formData.email) {
             alert('Todos los campos son obligatorios');
             return;
@@ -48,14 +46,54 @@ function Providers() {
                 body: JSON.stringify(formData)
             });
             if (!response.ok) {
-                throw new Error('Error al guardar el proveedor');
+                throw new Error('Error al guardar el Proveedor');
             }
             const newProvider = await response.json();
             context.setProviders([...context.providers, newProvider]);
             alert('Proveedor guardado con éxito');
         } catch (error) {
-            alert('Error al guardar el proveedor ${error.message}');
+            alert(`Error al guardar el Proveedor ${error.message}`);
         }
+    };
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedProvider, setSelectedProvider] = useState(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+    const handleMenuClick = (event, provider) => {
+        setAnchorEl(event.currentTarget);
+        setSelectedProvider(provider);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleEdit = () => {
+        setIsEditModalOpen(true);
+        handleMenuClose();
+    };
+
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`${apiurl}/providers/${selectedProvider.id}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                throw new Error('Error al eliminar el Proveedor');
+            }
+            context.setProviders(context.providers.filter(provider => provider.id !== selectedProvider.id));
+            alert('Proveedor eliminado con éxito');
+            handleMenuClose();
+        } catch (error) {
+            alert(`Error al eliminar el Proveedor ${error.message}`);
+        }
+    };
+
+    const handleUpdate = (updatedProvider) => {
+        context.setProviders(context.providers.map(provider =>
+            provider.id === updatedProvider.id ? updatedProvider : provider
+        ));
     };
 
     const renderView = () => {
@@ -92,9 +130,18 @@ function Providers() {
                                     <TableCell>{item.contactPhone}</TableCell>
                                     <TableCell>{item.email}</TableCell>
                                     <TableCell>
-                                        <IconButton>
+                                        <IconButton onClick={(event) => handleMenuClick(event, item)}>
                                             <MoreVertIcon />
                                         </IconButton>
+                                        <Menu
+                                            anchorEl={anchorEl}
+                                            keepMounted
+                                            open={Boolean(anchorEl)}
+                                            onClose={handleMenuClose}
+                                        >
+                                            <MenuItem onClick={handleEdit}>Editar</MenuItem>
+                                            <MenuItem onClick={handleDelete}>Eliminar</MenuItem>
+                                        </Menu>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -166,9 +213,15 @@ function Providers() {
                     </form>
                 </div>
                 <div className='w-full flex flex-col items-center justify-center bg-grayInput'>
-
                     {renderView()}
                 </div>
+                {isEditModalOpen && (
+                    <EditProvider
+                        provider={selectedProvider}
+                        onClose={() => setIsEditModalOpen(false)}
+                        onUpdate={handleUpdate}
+                    />
+                )}
             </div>
         </Layout>
     );

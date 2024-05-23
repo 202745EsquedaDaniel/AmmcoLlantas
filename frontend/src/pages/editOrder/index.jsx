@@ -130,9 +130,9 @@ function EditOrder() {
     return <div>Loading...</div>;
   }
 
-  const getTireDetails = (tire_ID) => {
-    const tire = tires.find(t => t.id === tire_ID);
-    return tire ? { name: tire.name, model: tire.model } : { name: '', model: '' };
+  const getTireDetails = (detail) => {
+    const { Tire } = detail;
+    return Tire ? { name: Tire.name, model: Tire.model } : { name: '', model: '' };
   };
 
   return (
@@ -144,32 +144,32 @@ function EditOrder() {
 
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
-            {order.orderDetails.map((detail) => {
-              const productQuantity = quantities[detail.tire_ID] || 0;
-              const productTotal = productQuantity * detail.unitPrice;
-              const { name, model } = getTireDetails(detail.tire_ID);
-              return (
-                <div key={detail.tire_ID} className="mb-4 flex items-center">
-                  <CartCard
-                    id={detail.tire_ID}
-                    name={`${name} ${model}`}
-                    price={detail.unitPrice}
-                  />
-                  <div className="flex-1 ml-4">
-                    <input
-                      type="number"
-                      placeholder="Cantidad"
-                      className="w-full p-2 border border-gray-300 rounded"
-                      value={quantities[detail.tire_ID] || ''}
-                      onChange={(e) => handleQuantityChange(detail.tire_ID, e.target.value)}
-                    />
-                    <div className="mt-2 text-right text-sm text-gray-700">
-                      Total: ${productTotal.toFixed(2)}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          {order.orderDetails.map((detail) => {
+  const productQuantity = quantities[detail.tire_ID] || 0;
+  const productTotal = productQuantity * detail.unitPrice;
+  const { name, model } = getTireDetails(detail);
+  return (
+    <div key={detail.tire_ID} className="mb-4 flex items-center">
+      <CartCard
+        id={detail.tire_ID}
+        name={`${name} ${model}`}
+        price={detail.unitPrice}
+      />
+      <div className="flex-1 ml-4">
+        <input
+          type="number"
+          placeholder="Cantidad"
+          className="w-full p-2 border border-gray-300 rounded"
+          value={quantities[detail.tire_ID] || ''}
+          onChange={(e) => handleQuantityChange(detail.tire_ID, e.target.value)}
+        />
+        <div className="mt-2 text-right text-sm text-gray-700">
+          Total: ${productTotal.toFixed(2)}
+        </div>
+      </div>
+    </div>
+  );
+})}
           </div>
 
           <div className="flex-1 p-4 bg-white shadow rounded">

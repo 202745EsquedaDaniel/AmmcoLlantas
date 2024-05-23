@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   tableColHeader: {
-    width: '16.67%',
+    width: '20%',
     borderStyle: 'solid',
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   tableCol: {
-    width: '16.67%',
+    width: '20%',
     borderStyle: 'solid',
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -114,16 +114,11 @@ const OrderTicket = ({ order, subtotal, iva, total }) => (
           <Text style={styles.label}>Fecha:</Text>
           <Text style={styles.value}>{new Date(order.date).toLocaleDateString()}</Text>
         </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Cliente ID:</Text>
-          <Text style={styles.value}>{order.customer_ID}</Text>
-        </View>
       </View>
       <View style={styles.section}>
         <Text style={styles.label}>Detalles de la Orden:</Text>
         <View style={styles.table}>
           <View style={styles.tableRow}>
-            <Text style={styles.tableColHeader}>Llanta ID</Text>
             <Text style={styles.tableColHeader}>Nombre</Text>
             <Text style={styles.tableColHeader}>Modelo</Text>
             <Text style={styles.tableColHeader}>Cantidad</Text>
@@ -132,16 +127,14 @@ const OrderTicket = ({ order, subtotal, iva, total }) => (
           </View>
           {order.orderDetails.map((detail) => (
             <View key={detail.tire_ID} style={styles.tableRow}>
-              <Text style={styles.tableCol}>{detail.tire_ID}</Text>
-              <Text style={styles.tableCol}>{detail.name}</Text>
-              <Text style={styles.tableCol}>{detail.model}</Text>
+              <Text style={styles.tableCol}>{detail.Tire.name}</Text>
+              <Text style={styles.tableCol}>{detail.Tire.model}</Text>
               <Text style={styles.tableCol}>{detail.quantity}</Text>
               <Text style={styles.tableCol}>${detail.unitPrice.toFixed(2)}</Text>
               <Text style={styles.tableCol}>${(detail.quantity * detail.unitPrice).toFixed(2)}</Text>
             </View>
           ))}
           <View style={styles.tableRow}>
-            <Text style={styles.tableCol}></Text>
             <Text style={styles.tableCol}></Text>
             <Text style={styles.tableCol}></Text>
             <Text style={styles.tableCol}></Text>
@@ -152,12 +145,10 @@ const OrderTicket = ({ order, subtotal, iva, total }) => (
             <Text style={styles.tableCol}></Text>
             <Text style={styles.tableCol}></Text>
             <Text style={styles.tableCol}></Text>
-            <Text style={styles.tableCol}></Text>
             <Text style={styles.tableCol}>Balanceo</Text>
             <Text style={styles.tableCol}>${order.balanceo.toFixed(2)}</Text>
           </View>
           <View style={styles.tableRow}>
-            <Text style={styles.tableCol}></Text>
             <Text style={styles.tableCol}></Text>
             <Text style={styles.tableCol}></Text>
             <Text style={styles.tableCol}></Text>

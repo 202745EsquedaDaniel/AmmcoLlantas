@@ -121,6 +121,8 @@ function MyOrder() {
     if (hasError) {
       console.error("Error creating order details:", orderDetailsResponse);
       alert("Error creating order details. Please try again.");
+    } else {
+      window.location.href = `https://ammcollantas-production.up.railway.app/orders/${orderID}`;
     }
   };
 
@@ -128,7 +130,7 @@ function MyOrder() {
     <Layout>
       <div className="w-full p-4 bg-gray-100">
         <div className="mb-4 text-center">
-          <h1 className="text-2xl font-bold">My Order</h1>
+          <h1 className="text-2xl font-bold">Cotizar</h1>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4">

@@ -69,7 +69,7 @@ router.patch(
 router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('user', 'admin'),
+  checkRoles('user'),
   validatorHandler(getProviderSchema, 'params'),
   async (req, res, next) => {
     try {

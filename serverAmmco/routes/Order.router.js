@@ -50,7 +50,6 @@ router.post(
   },
 );
 
-
 router.patch(
   '/:id',
   validatorHandler(getOrderSchema, 'params'),
@@ -70,7 +69,6 @@ router.patch(
 router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('user', 'admin'),
   validatorHandler(getOrderSchema, 'params'),
   async (req, res, next) => {
     try {

@@ -3,7 +3,7 @@ const cors = require('cors');
 const http = require('http');
 const routerApi = require('./routes');
 const { checkApiKey } = require('./middlewares/auth.handler');
-const {setupWebSocketServer} = require('./lib/webnsocket');
+const { setupWebSocketServer } = require('./lib/webnsocket');
 
 const {
   logErrors,
@@ -24,14 +24,13 @@ module.exports.wss = wss;
 
 const port = process.env.PORT || 3000;
 
-
 app.use(express.json());
 
 console.clear();
 
 const whitelist = [
   'http://localhost:4173',
-  'https://ammcollantas-backend-production.up.railway.app/',
+  'https://ammcollantas-backend-production.up.railway.app',
 ];
 const options = {
   origin: (origin, callback) => {

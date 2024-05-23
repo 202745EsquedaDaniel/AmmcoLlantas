@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
 import { apiurl } from '../../api';
 import { EditProvider } from '../../components/editProvider';
+import { ProvidersIcon } from '../../components/icons';
 
 function Providers() {
     const context = useContext(InventorySystemContext);
@@ -124,7 +125,7 @@ function Providers() {
                         <TableBody>
                             {paginatedItems.map((item) => (
                                 <TableRow key={item.id}>
-                                    <TableCell><img src="https://e7.pngegg.com/pngimages/525/536/png-clipart-tires-tires.png" alt={item.category} width="50" /></TableCell>
+                                    <TableCell><ProvidersIcon></ProvidersIcon></TableCell>
                                     <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.address}</TableCell>
                                     <TableCell>{item.contactPhone}</TableCell>

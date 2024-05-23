@@ -17,7 +17,7 @@ module.exports = {
     await queryInterface.createTable(PROVIDER_TABLE, ProviderSchema);
     await queryInterface.createTable(TIRES_TABLE, TireSchema);
     await queryInterface.createTable(ORDERDETAILS_TABLE, OrderDetailSchema);
-    await queryInterface.addConstraint(USER_TABLE, UserSchema);
+    await queryInterface.createTable(USER_TABLE, UserSchema);
   },
 
   down: async (queryInterface) => {

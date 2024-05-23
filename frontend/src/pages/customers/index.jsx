@@ -3,7 +3,7 @@ import { Layout } from '../../components/layout';
 import { InventorySystemContext } from '../../context';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Pagination } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
-import { AddIcon, CheckIcon } from '../../components/icons';
+import { AddIcon, CheckIcon, CustomersIcon } from '../../components/icons';
 import { apiurl } from '../../api';
 
 function Customers() {
@@ -82,7 +82,7 @@ function Customers() {
                         <TableBody>
                             {paginatedItems.map((item) => (
                                 <TableRow key={item.id}>
-                                    <TableCell><img src="https://e7.pngegg.com/pngimages/525/536/png-clipart-tires-tires.png" alt={item.category} width="50" /></TableCell>
+                                    <TableCell><CustomersIcon></CustomersIcon></TableCell>
                                     <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.contactPhone}</TableCell>
                                     <TableCell>{item.email}</TableCell>

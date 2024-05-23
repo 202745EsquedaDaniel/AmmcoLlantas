@@ -30,7 +30,7 @@ console.clear();
 
 const whitelist = [
   'http://localhost:4173',
-  'https://ammcollantas-backend-production.up.railway.app',
+  'https://ammcollantas-production.up.railway.app',
 ];
 const options = {
   origin: (origin, callback) => {

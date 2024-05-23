@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { InventorySystemContext } from "../../context";
 import { Layout } from "../../components/layout";
 import { CartCard } from "../../components/cartCard";
@@ -16,6 +16,26 @@ function MyOrder() {
   const [alineacion, setAlineacion] = useState(0);
   const [balanceo, setBalanceo] = useState(0);
   const [quantities, setQuantities] = useState({});
+  const [pivotes, setPivotes] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [iva, setIva] = useState(0);
+  const [applyIva, setApplyIva] = useState(true);
+  const pivoteCost = 30;
+  const ivaRate = 0.06;
+
+  useEffect(() => {
+    const productSubtotal = context.order[index].products.reduce((sum, product) => {
+      const productQuantity = quantities[product.id] || 0;
+      return sum + productQuantity * product.price;
+    }, 0);
+    const pivotesTotal = pivotes * pivoteCost;
+    const tempSubtotal = productSubtotal + alineacion + balanceo + pivotesTotal;
+    const ivaAmount = applyIva ? tempSubtotal * ivaRate : 0;
+    setSubtotal(tempSubtotal);
+    setIva(ivaAmount);
+    setTotal(tempSubtotal + ivaAmount);
+  }, [quantities, alineacion, balanceo, pivotes, applyIva, context.order, index]);
 
   const handleCustomerChange = (event) => {
     setCustomerID(Number(event.target.value));
@@ -36,28 +56,29 @@ function MyOrder() {
     }));
   };
 
+  const handlePivotesChange = (event) => {
+    setPivotes(parseInt(event.target.value, 10));
+  };
+
+  const handleIvaChange = () => {
+    setApplyIva((prev) => !prev);
+  };
+
   const handleSubmit = async () => {
     if (isNaN(customerID) || customerID <= 0) {
       alert("Please select a valid customer.");
       return;
     }
 
-    const orderTotal = context.order[index].products.reduce((sum, product) => {
-      const productQuantity = quantities[product.id] || 0;
-      return sum + productQuantity * product.price;
-    }, 0) + alineacion + balanceo;
-
-    // Crear la Order
     const newOrder = {
       customer_ID: customerID,
       date: new Date().toISOString(),
       alineacion,
       balanceo,
-      pivotes: 1,
-      total: orderTotal,
+      pivotes,
+      total,
     };
 
-    // POST Order y obtener el ID de la nueva Order
     const response = await fetch(`${apiurl}/orders`, {
       method: "POST",
       headers: {
@@ -76,7 +97,6 @@ function MyOrder() {
     const createdOrder = await response.json();
     const orderID = createdOrder.id;
 
-    // Crear OrderDetails
     const orderDetails = context.order[index].products.map((product) => ({
       order_ID: orderID,
       tire_ID: product.id,
@@ -84,7 +104,6 @@ function MyOrder() {
       unitPrice: product.price,
     }));
 
-    // POST OrderDetails
     const orderDetailsResponse = await Promise.all(
       orderDetails.map((detail) =>
         fetch(`${apiurl}/orderDetails`, {
@@ -114,23 +133,33 @@ function MyOrder() {
 
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
-            {context.order?.[index]?.products.map((product) => (
-              <div key={product.id} className="mb-4">
-                <CartCard
-                  id={product.id}
-                  name={product.name}
-                  imageUrl={product.images}
-                  price={product.price}
-                />
-                <input
-                  type="number"
-                  placeholder="Cantidad"
-                  className="w-full p-2 border border-gray-300 rounded"
-                  value={quantities[product.id] || ''}
-                  onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                />
-              </div>
-            ))}
+            {context.order?.[index]?.products.map((product) => {
+              const productQuantity = quantities[product.id] || 0;
+              const productTotal = productQuantity * product.price;
+              return (
+                <div key={product.id} className="mb-4 flex items-center">
+                  <CartCard
+                    id={product.id}
+                    name={product.name}
+                    model={product.model}
+                    imageUrl={product.images}
+                    price={product.price}
+                  />
+                  <div className="flex-1 ml-4">
+                    <input
+                      type="number"
+                      placeholder="Cantidad"
+                      className="w-full p-2 border border-gray-300 rounded"
+                      value={quantities[product.id] || ''}
+                      onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                    />
+                    <div className="mt-2 text-right text-sm text-gray-700">
+                      Total: ${productTotal.toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           <div className="flex-1 p-4 bg-white shadow rounded">
@@ -179,6 +208,38 @@ function MyOrder() {
                 value={balanceo}
                 onChange={handleBalanceoChange}
               />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="pivotes" className="block text-sm font-medium text-gray-700">
+                Número de Pivotes:
+              </label>
+              <input
+                type="number"
+                id="pivotes"
+                className="w-full p-2 border border-gray-300 rounded mt-1"
+                value={pivotes}
+                onChange={handlePivotesChange}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="applyIva" className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="applyIva"
+                  checked={applyIva}
+                  onChange={handleIvaChange}
+                  className="mr-2"
+                />
+                Aplicar 6% de IVA
+              </label>
+            </div>
+
+            <div className="mb-4">
+              <h2 className="text-lg font-bold">Subtotal de llantas: ${subtotal.toFixed(2)}</h2>
+              <h2 className="text-lg font-bold">IVA (6%): ${iva.toFixed(2)}</h2>
+              <h2 className="text-lg font-bold">Total: ${total.toFixed(2)}</h2>
             </div>
 
             <div>

@@ -26,8 +26,9 @@ function Orders() {
             {orders.map((order) => (
                 <Link key={order.id} to={`/orders/${order.id}`}>
                     <OrdersCard
+                        id={order.id}
+                        date={order.date}
                         totalPrice={order.total}
-   
                     />
                 </Link>
             ))}

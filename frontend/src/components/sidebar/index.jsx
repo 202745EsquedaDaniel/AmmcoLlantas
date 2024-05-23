@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { HomeIcon, OrdersIcon, ProductsIcon, ProvidersIcon } from '../icons';
+import { CustomersIcon, HomeIcon, LogOutIcon, OrdersIcon, ProductsIcon, ProvidersIcon } from '../icons';
 import { PiTireDuotone } from "react-icons/pi";
 
 const Sidebar = () => {
@@ -19,12 +19,6 @@ const Sidebar = () => {
             </div>
             <ul className='text-gray-700'>
                 <li className='mt-5'>
-                    <NavLink to="/" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
-                        <HomeIcon />
-                        Incio
-                    </NavLink>
-                </li>
-                <li>
                     <NavLink to="/orders" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
                         <OrdersIcon />
                         Ordenes
@@ -44,11 +38,13 @@ const Sidebar = () => {
                 </li>
                 <li>
                     <NavLink to="/customers" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
+                        <CustomersIcon />
                         Clientes
                     </NavLink>
                 </li>
                 <li>
                     <button onClick={handleLogout} className='flex items-center gap-2 p-2 hover:bg-gray-200 font-semibold w-full text-left'>
+                        <LogOutIcon />
                         Cerrar Sesión
                     </button>
                 </li>

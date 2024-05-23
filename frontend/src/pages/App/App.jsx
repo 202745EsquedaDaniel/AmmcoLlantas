@@ -21,7 +21,7 @@ const AppRoutes = () => {
   const isLoginPage = location.pathname === '/login';
 
   let routes = useRoutes([
-    {path:"/", element:<Home/>},
+    {path:"/", element:<Products/>},
     {path:"/products", element:<Products/>},
     {path:"/orders", element:<Orders/>},
     {path: "/orders/last", element:<MyOrder/>},

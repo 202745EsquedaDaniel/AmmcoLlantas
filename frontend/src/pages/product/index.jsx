@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Layout } from '../../components/layout';
 import { InventorySystemContext } from '../../context';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Pagination, Menu, MenuItem } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Pagination, Menu, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
 import { AddIcon, CheckIcon } from '../../components/icons';
 import { apiurl } from '../../api';
@@ -16,9 +16,66 @@ function Products() {
         setPage(value);
     };
 
+    const [formData, setFormData] = useState({
+        name: '',
+        model: '',
+        price: '',
+        stock: '',
+        provider_ID: ''
+    });
+
+    const [suppliers, setSuppliers] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+    useEffect(() => {
+        const fetchSuppliers = async () => {
+            try {
+                const response = await fetch(`${apiurl}/providers`);
+                const data = await response.json();
+                setSuppliers(data);
+            } catch (error) {
+                console.error('Error fetching suppliers:', error);
+            }
+        };
+
+        fetchSuppliers();
+    }, []);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!formData.name || !formData.model || !formData.price || !formData.stock || !formData.provider_ID) {
+            alert('Todos los campos son obligatorios');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${apiurl}/tires`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            if (!response.ok) {
+                throw new Error('Error al guardar el Producto');
+            }
+            const newProduct = await response.json();
+            context.setProducts([...context.products, newProduct]);
+            alert('Producto guardado con éxito');
+        } catch (error) {
+            alert(`Error al guardar el Producto ${error.message}`);
+        }
+    };
 
     const handleMenuClick = (event, product) => {
         setAnchorEl(event.currentTarget);
@@ -111,6 +168,7 @@ function Products() {
                                 <TableCell>Modelo</TableCell>
                                 <TableCell>Cantidad</TableCell>
                                 <TableCell>Precio ($)</TableCell>
+                                <TableCell>Proveedor</TableCell>
                                 <TableCell>Acción</TableCell>
                                 <TableCell>Agregar al Carrito</TableCell>
                             </TableRow>
@@ -123,6 +181,7 @@ function Products() {
                                     <TableCell>{item.model}</TableCell>
                                     <TableCell>{item.stock}</TableCell>
                                     <TableCell>{item.price}</TableCell>
+                                    <TableCell>{item.supplierName}</TableCell>
                                     <TableCell>
                                         <IconButton onClick={(event) => handleMenuClick(event, item)}>
                                             <MoreVertIcon />
@@ -162,20 +221,69 @@ function Products() {
             <div className="w-full flex relative">
                 <div className="bg-white h-screen p-4">
                     <h2 className="text-lg">Agregar Nuevo Producto</h2>
-                    <div className="border-y-2 pb-2">
-                        <p>PRODUCT INFO</p>
-                        <p className="font-semibold">Marca</p>
-                        <input type="text" placeholder="Michelin" className="bg-grayInput rounded-xl p-2" />
-                        <p className="font-semibold mt-3">Modelo de llanta</p>
-                        <input type="text" placeholder="265/65/R16" className="bg-grayInput rounded-xl p-2" />
-                        <p className="font-semibold mt-3">Precio ($)</p>
-                        <input type="number" placeholder="1200" className="bg-grayInput rounded-xl p-2" />
-                        <p className="font-semibold mt-3">Stock</p>
-                        <input type="number" placeholder="4" className="bg-grayInput rounded-xl p-2" />
-                    </div>
-                    <div>
-                        <button className="bg-blue-500 text-white rounded-xl p-2 mt-4">Guardar</button>
-                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <div className="border-y-2 pb-2">
+                            <p>PRODUCT INFO</p>
+                            <p className="font-semibold">Marca</p>
+                            <input
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                placeholder="Michelin"
+                                className="bg-grayInput rounded-xl p-2"
+                            />
+                            <p className="font-semibold mt-3">Modelo de llanta</p>
+                            <input
+                                type="text"
+                                name="model"
+                                value={formData.model}
+                                onChange={handleInputChange}
+                                placeholder="195/65/r16"
+                                className="bg-grayInput rounded-xl p-2"
+                            />
+                            <p className="font-semibold mt-3">Precio ($)</p>
+                            <input
+                                type="number"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleInputChange}
+                                placeholder="1200"
+                                className="bg-grayInput rounded-xl p-2"
+                            />
+                            <p className="font-semibold mt-3">Stock</p>
+                            <input
+                                type="number"
+                                name="stock"
+                                value={formData.stock}
+                                onChange={handleInputChange}
+                                placeholder="4"
+                                className="bg-grayInput rounded-xl p-2"
+                            />
+                            <p className="font-semibold mt-3">Proveedor</p>
+                            <FormControl fullWidth>
+                                <InputLabel id="supplier-label">Proveedor</InputLabel>
+                                <Select
+                                    labelId="supplier-label"
+                                    name="provider_ID"
+                                    value={formData.provider_ID}
+                                    onChange={handleInputChange}
+                                    className="bg-grayInput rounded-xl p-2"
+                                >
+                                    {suppliers.map((supplier) => (
+                                        <MenuItem key={supplier.id} value={supplier.id}>
+                                            {supplier.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <div>
+                            <button type="submit" className="bg-blue-500 text-white rounded-xl p-2 mt-4">
+                                Guardar
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 <div className='w-full flex flex-col items-center justify-center bg-grayInput'>
                     <input

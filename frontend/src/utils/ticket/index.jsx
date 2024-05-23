@@ -101,9 +101,10 @@ const OrderTicket = ({ order, subtotal, iva, total }) => (
   <Document>
     <Page style={styles.page}>
       <View style={styles.header}>
-        <Text style={styles.title}>Nombre del Local</Text>
-        <Text style={styles.subtitle}>Dirección del Local</Text>
-        <Text style={styles.subtitle}>Teléfono del Local</Text>
+        <Text style={styles.title}>AMM.CO Llantas y servicios.</Text>
+        <Text style={styles.subtitle}> Av Valentín Fuentes Varela 1400-B, Villa Hermosa, 32510 Juárez, Chih.</Text>
+        <Text style={styles.subtitle}>(656)894-4865</Text>
+        <Text style={styles.subtitle}>contacto@ammco.mx</Text>
       </View>
       <View style={styles.section}>
         <View style={styles.row}>

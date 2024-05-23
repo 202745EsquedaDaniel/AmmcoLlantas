@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiurl } from '../../api';
 
 function Login() {
     const [email, setUsername] = useState('');
@@ -9,7 +10,7 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3000/Api/v1/auth/login', {
+            const response = await fetch(`${apiurl}/auth/login, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -93,8 +93,12 @@ function Products() {
 
     const handleDelete = async () => {
         try {
+            const token = context.authToken;
             const response = await fetch(`${apiurl}/tires/${selectedProduct.id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}` 
+                }
             });
             if (!response.ok) {
                 throw new Error('Error al eliminar el Producto');
@@ -106,6 +110,7 @@ function Products() {
             alert(`Error al eliminar el Producto ${error.message}`);
         }
     };
+    
 
     const handleUpdate = (updatedProduct) => {
         context.setProducts(context.products.map(product =>

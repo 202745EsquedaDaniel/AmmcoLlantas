@@ -1,7 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const { ORDER_TABLE } = require('./orders.model');
-const { TIRES_TABLE } = require('./tires.model');
+const { TIRES_TABLE, Tire } = require('./tires.model');
 
 const ORDERDETAILS_TABLE = 'OrderDetails';
 
@@ -79,6 +79,21 @@ class OrderDetail extends Model {
         },
         beforeUpdate: (orderDetail) => {
           orderDetail.subtotal = orderDetail.quantity * orderDetail.unitPrice;
+        },
+        afterCreate: async (orderDetail, options) => {
+          const tire = await Tire.findByPk(orderDetail.tire_ID);
+          if (tire) {
+            tire.stock -= orderDetail.quantity;
+            await tire.save();
+          }
+        },
+        afterUpdate: async (orderDetail, options) => {
+          const tire = await Tire.findByPk(orderDetail.tire_ID);
+          if (tire) {
+            const oldQuantity = options.fields.includes('quantity') ? options.fields.quantity.previous : orderDetail.quantity;
+            tire.stock += oldQuantity - orderDetail.quantity;
+            await tire.save();
+          }
         },
       },
     };

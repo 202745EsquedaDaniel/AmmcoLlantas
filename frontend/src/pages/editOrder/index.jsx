@@ -95,36 +95,36 @@ function EditOrder() {
     setApplyIva((prev) => !prev);
   };
 
-  const handleSubmit = async () => {
-    const updatedOrder = {
-      ...order,
-      customer_ID: customerID,
-      alineacion,
-      balanceo,
-      pivotes,
-      orderDetails: order.orderDetails.map(detail => ({
-        ...detail,
-        quantity: quantities[detail.tire_ID] || 0,
-      })),
-      total,
-    };
-
-    const response = await fetch(`${apiurl}/orders/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedOrder),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Error updating order:", errorData);
-      alert("Error updating order. Please try again.");
-    } else {
-      alert("Order updated successfully!");
-    }
+const handleSubmit = async () => {
+  const { id, createdAt, orderDetails, ...rest } = order;
+  
+  const updatedOrder = {
+    ...rest,
+    customer_ID: customerID,
+    alineacion,
+    balanceo,
+    pivotes,
+    total,
   };
+
+  const response = await fetch(`${apiurl}/orders/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedOrder),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error("Error updating order:", errorData);
+    alert("Error updating order. Please try again.");
+  } else {
+    alert("Order updated successfully!");
+  }
+};
+
+  
 
   if (!order) {
     return <div>Loading...</div>;
@@ -257,7 +257,7 @@ function EditOrder() {
                 onClick={handleSubmit}
                 className="w-full p-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700"
               >
-                Update Order
+                Actualizar Orden
               </button>
               <button
                 onClick={() => downloadPdf(order, subtotal, iva, total)}
